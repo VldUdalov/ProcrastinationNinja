@@ -10,7 +10,7 @@ var hit_cnt = 0
 var cur_stage_index = 0
 var miss_alpha = -1.
 var miss = 0
-var countdown = 7.
+var countdown = 3.
 let textPos = float2(float(get_screen_width())/2. - 70., 20.)
 let missPos = float2(float(get_screen_width())/2., float(get_screen_height())/2.)
 
