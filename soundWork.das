@@ -15,7 +15,7 @@ var penalty = 0.1
 def init_sound
     musicLoop <- create_sound("lowing.mp3")
 
-def hit 
+def update_sound_delay 
     playing_time = playing_time_max
 
 def update_playing_time(dt:float)

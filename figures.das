@@ -1,6 +1,7 @@
 require utils
 require fx
 require daslib/media
+require stage
 
 struct Vertice
     pt:float2
@@ -24,8 +25,6 @@ struct Figure
     numIntersections:int
     numRed :int
 
-
-
 let speedZ = 15.
 let sin_aov = sin(PI/3.)
 let deltaX = 100.
@@ -33,11 +32,10 @@ let numPositions = 7
 let startDirAngle = [[float[numPositions] -3.*PI/8.; -PI/4.; -PI/8.; 0.; PI/8.; PI/4.; 3.*PI/8.]] 
 
 let killZone = [[float[2] 10.; 20.]]
-let period = 0.7
 
 var figures: array<Figure>
 var id_counter = 0
-var gen = period
+var gen = 0.7
 var cnt = 0
 
 def test_line_figure_intersection(a0: float2; a1: float2; var fig: Figure; seed :int4) :bool
@@ -83,22 +81,24 @@ def rot_vec(v:float2; angle:float):float2
 
 def generate_figures(dt:float; var seed: int4)
     gen += dt
-    if gen < period
+    if gen < get_period()
         return
     gen = 0.
     
     randomize_seed(seed)
     let flStart = 7. *  random_float(seed)
     let start = int(flStart)
-    var scrCenter = float2(get_screen_width()/2, get_screen_height()/2 + 100) 
+    var scrCenter = float2(float(get_screen_width())/2. , float(get_screen_height())/2. + get_y_deviation() *random_float(seed)) 
     var pts: array<float2>
-    pts|> push(float2(-5, -5)) 
-    pts|> push(float2(5, -5)) 
-    pts|> push(float2(5, 5)) 
-    pts|> push(float2(-5, 5))  
+    let r = 5. * get_scale()
+    pts|> push(float2(-r, -r)) 
+    pts|> push(float2(r, -r)) 
+    pts|> push(float2(r, r)) 
+    pts|> push(float2(-r, r))  
     let w0 = random_float(seed)
     scrCenter.x += deltaX * float(start) - float(numPositions)/2.*deltaX
-    figures|> push_clone(make_figure(scrCenter,0.,pts,float2(0,0), w0,start))
+    let startVel = float2(0.,50. - 100. *random_float(seed))
+    figures|> push_clone(make_figure(scrCenter,0.,pts,startVel, w0,start))
 
 
 def update_color(var fig:Figure)
