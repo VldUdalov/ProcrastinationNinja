@@ -1,5 +1,6 @@
 require daslib/media
 require utils
+require fio
 
 var
     musicLoop: PcmSound
@@ -13,7 +14,10 @@ var playing_time = -1.
 var penalty = 0.1
 
 def init_sound
-    musicLoop <- create_sound("lowing.mp3")
+    let f=fopen("lowing.mp3", "r")
+    if f!=null
+        fclose(f)
+        musicLoop <- create_sound("lowing.mp3")
 
 def update_sound_delay 
     playing_time = playing_time_max

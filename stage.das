@@ -10,7 +10,7 @@ var hit_cnt = 0
 var cur_stage_index = 0
 var miss_alpha = -1.
 var miss = 0
-var countdown = 6.
+var countdown = 7.
 let textPos = float2(float(get_screen_width())/2. - 70., 20.)
 let missPos = float2(float(get_screen_width())/2., float(get_screen_height())/2.)
 
@@ -54,7 +54,7 @@ def is_countdown()
 
 def draw_countdown
     if countdown > 0.
-        let out = "{int(countdown)}"
+        let out = "{int(countdown)+1}"
         text_out(missPos.x,missPos.y, out, 0xFFFFFFFF)    
 
 def update_miss(dt:float)
