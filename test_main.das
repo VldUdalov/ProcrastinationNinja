@@ -5,13 +5,15 @@ require utils
 require figures
 require mouse
 require fx
+require soundWork
 
 let scrWidth = float(get_screen_width())
 var seed:int4
 
 [export]
 def initialize
-    set_window_title("test")
+    set_window_title("Prokrastination Ninja")
+    init_sound()
     randomize_seed(seed)
 
 [export]
@@ -31,9 +33,11 @@ def act(dt: float)
         if canCut && f.canCut && f.z>killZone[0] && f.z <killZone[1]
             if test_line_figure_intersection(posHistory[0], posHistory[mouse_pos_history_len - 1], f, seed)
                 erase(figures, i)
+                hit()
                 i--
         i++    
 
+    update_sound(dt)
     update_splashes(dt)
     if get_key(VK_ESCAPE)
         schedule_quit_game()

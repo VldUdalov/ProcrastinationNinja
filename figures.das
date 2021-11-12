@@ -33,7 +33,7 @@ let numPositions = 7
 let startDirAngle = [[float[numPositions] -3.*PI/8.; -PI/4.; -PI/8.; 0.; PI/8.; PI/4.; 3.*PI/8.]] 
 
 let killZone = [[float[2] 10.; 20.]]
-let period = 1.
+let period = 0.7
 
 var figures: array<Figure>
 var id_counter = 0
@@ -86,8 +86,10 @@ def generate_figures(dt:float; var seed: int4)
     if gen < period
         return
     gen = 0.
-
-    let start = (cnt++) % 7 
+    
+    randomize_seed(seed)
+    let flStart = 7. *  random_float(seed)
+    let start = int(flStart)
     var scrCenter = float2(get_screen_width()/2, get_screen_height()/2 + 100) 
     var pts: array<float2>
     pts|> push(float2(-5, -5)) 
